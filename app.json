@@ -1,0 +1,21 @@
+{
+  "expo": {
+    "name": "Cthulhu",
+    "description": "This project is really great.",
+    "slug": "cthulhu-android",
+    "privacy": "public",
+    "sdkVersion": "24.0.0",
+    "platforms": ["android"],
+    "version": "0.1.0",
+    "orientation": "portrait",
+    "icon": "./cthulhu.png",
+    "splash": {
+      "image": "./cthulhu.png",
+      "resizeMode": "contain",
+      "backgroundColor": "#ffffff"
+    },
+    "android": {
+      "package": "de.inhji.cthulhu.android"
+    }
+  }
+}
