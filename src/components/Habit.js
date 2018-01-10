@@ -26,12 +26,10 @@ class Habit extends React.Component {
         <View style={styles.container}>
           <View style={{ flexGrow: 1 }}>
             <Text style={{ fontSize: 18 }}>{habit.name}</Text>
-            <Text color="#ccc" style={{ color: '#aaa' }}>
-              {habit.description || 'A fine habit'}
-            </Text>
+            <Text style={{ color: '#aaa' }}>{habit.description || 'A fine habit'}</Text>
           </View>
           <View style={{ width: 50 }}>
-            <Button style={styles.button} color="#dd3344" title="+1" onPress={this.addHabitLog} />
+            <Button color="#673AB7" title="+1" onPress={this.addHabitLog} />
             {/* <Button
               style={styles.button}
               color="#ccc"
@@ -56,9 +54,6 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     backgroundColor: '#fff',
     padding: 20
-  },
-  button: {
-    backgroundColor: '#fff'
   }
 })
 

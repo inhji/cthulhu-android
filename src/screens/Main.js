@@ -21,29 +21,15 @@ const DrawerNav = DrawerNavigator({
   Login: { screen: LoginScreen }
 })
 
-const styles = StyleSheet.create({
-  menuIcon: {
-    marginLeft: 20
-  },
-  headerTitle: {
-    flex: 1
-  }
-})
-
 class Main extends React.Component {
   static navigationOptions = {
     title: 'Cthulhu',
     headerTintColor: '#fff',
     headerStyle: {
-      backgroundColor: '#dd3344',
-      paddingLeft: 10
-    },
-    headerLeft: (
-      <Text>
-        <MaterialIcons name="menu" color="white" size={32} style={styles.menuIcon} />
-      </Text>
-    )
+      backgroundColor: '#673AB7'
+    }
   }
+
   render() {
     return <DrawerNav />
   }

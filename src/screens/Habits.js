@@ -35,8 +35,6 @@ class Habits extends React.Component {
 
     const habits = allHabitsQuery.habits
 
-    console.log(navigation)
-
     return (
       <View>
         <FlatList

@@ -69,12 +69,12 @@ const styles = StyleSheet.create({
   DAY_GOOD: {
     flex: 1,
     padding: 3,
-    backgroundColor: '#0f0'
+    backgroundColor: '#EF5350'
   },
   DAY_BAD: {
     flex: 1,
     padding: 3,
-    backgroundColor: '#f00'
+    backgroundColor: '#66BB6A'
   },
   DAY_NONE: {
     flex: 1,
