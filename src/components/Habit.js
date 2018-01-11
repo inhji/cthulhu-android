@@ -6,8 +6,13 @@ import { graphql } from 'react-apollo'
 import { createHabitLogMutation } from '../lib/queries'
 
 class Habit extends React.Component {
+  state = {
+    addDisabled: false
+  }
+
   addHabitLog = async () => {
     try {
+      this.setState({ addDisabled: true })
       await this.props.createHabitLogMutation({
         variables: {
           id: this.props.habit.id
@@ -15,6 +20,8 @@ class Habit extends React.Component {
       })
     } catch (e) {
       Alert.alert(e.message)
+    } finally {
+      this.setState({ addDisabled: false })
     }
   }
 
@@ -29,7 +36,12 @@ class Habit extends React.Component {
             <Text style={{ color: '#aaa' }}>{habit.description || 'A fine habit'}</Text>
           </View>
           <View style={{ width: 50 }}>
-            <Button color="#673AB7" title="+1" onPress={this.addHabitLog} />
+            <Button
+              color="#673AB7"
+              disabled={this.state.addDisabled}
+              title="+1"
+              onPress={this.addHabitLog}
+            />
             {/* <Button
               style={styles.button}
               color="#ccc"
