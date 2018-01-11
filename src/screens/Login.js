@@ -1,7 +1,8 @@
 import React from 'react'
 import { View, Text, TextInput, StyleSheet, Button, Alert, AsyncStorage } from 'react-native'
-import { signinUserMutation } from '../lib/queries'
+import { NavigationActions } from 'react-navigation'
 import { graphql } from 'react-apollo'
+import { signinUserMutation } from '../lib/queries'
 
 class Login extends React.Component {
   static navigationOptions = {
@@ -24,7 +25,9 @@ class Login extends React.Component {
 
       await AsyncStorage.setItem('API_USER_ID', id)
       await AsyncStorage.setItem('API_AUTH_TOKEN', token)
-      Alert.alert('you are logged in, your token is ' + token)
+
+      const action = NavigationActions.navigate({ routeName: 'Habits' })
+      this.props.navigation.dispatch(action)
     } catch (e) {
       Alert.alert('Fehler: ' + e.message)
     }
