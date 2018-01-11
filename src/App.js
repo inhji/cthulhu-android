@@ -1,17 +1,61 @@
 import React from 'react'
-import { Text, View, StyleSheet, StatusBar } from 'react-native'
-import { StackNavigator, DrawerNavigator } from 'react-navigation'
+import { Text, View, StyleSheet, StatusBar, Button } from 'react-native'
+import { StackNavigator, DrawerNavigator, NavigationActions } from 'react-navigation'
 import { ApolloProvider } from 'react-apollo'
-import Main from './screens/Main'
+import LoginScreen from './screens/Login'
+import HomeScreen from './screens/Home'
+import HabitScreen from './screens/Habits'
+import EditHabit from './screens/EditHabit'
 import client from './lib/apollo'
 import { Constants } from 'expo'
 
+// const HabitNav = StackNavigator(
+//   {
+//     ListHabits: { screen: HabitScreen },
+//     EditHabit: { screen: EditHabit }
+//   },
+//   { headerMode: 'none' }
+// )
+
+const DrawerNav = DrawerNavigator({
+  Home: { screen: HomeScreen },
+  Habits: { screen: HabitScreen }
+})
+
 const Nav = StackNavigator(
   {
-    Home: { screen: Main }
+    Main: {
+      screen: DrawerNav,
+      navigationOptions: ({ navigation }) => {
+        return {
+          headerRight: (
+            <Button
+              title="Login"
+              onPress={props => {
+                const action = NavigationActions.navigate({ routeName: 'Login' })
+                navigation.dispatch(action)
+              }}
+            />
+          )
+        }
+      }
+    },
+    Login: {
+      screen: LoginScreen,
+      navigationOptions: {
+        title: 'Login'
+      }
+    }
   },
   {
-    headerMode: 'screen'
+    headerMode: 'screen',
+    navigationOptions: {
+      title: 'Cthulhu',
+      headerTintColor: '#fff',
+      headerStyle: {
+        backgroundColor: '#673AB7'
+      }
+    }
   }
 )
 
@@ -27,7 +71,12 @@ export default class App extends React.Component {
     return (
       <ApolloProvider client={client}>
         <View style={styles.root}>
-          <Nav />
+          <Nav
+            onNavigationStateChange={(prevState, currentState) => {
+              console.log('onNavigationStateChange')
+              console.log(currentState)
+            }}
+          />
         </View>
       </ApolloProvider>
     )

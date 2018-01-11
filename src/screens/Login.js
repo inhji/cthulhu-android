@@ -9,7 +9,7 @@ class Login extends React.Component {
     drawerLabel: 'Login'
   }
 
-  state = { email: '', password: '' }
+  state = { email: 'johnnie@posteo.de', password: '271090lotd' }
 
   handleLogin = async e => {
     try {
@@ -26,7 +26,9 @@ class Login extends React.Component {
       await AsyncStorage.setItem('API_USER_ID', id)
       await AsyncStorage.setItem('API_AUTH_TOKEN', token)
 
-      const action = NavigationActions.navigate({ routeName: 'Habits' })
+      console.log(this.props.navigation, NavigationActions)
+
+      const action = NavigationActions.back()
       this.props.navigation.dispatch(action)
     } catch (e) {
       Alert.alert('Fehler: ' + e.message)
