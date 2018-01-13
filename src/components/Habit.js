@@ -42,12 +42,12 @@ class Habit extends React.Component {
               title="+1"
               onPress={this.addHabitLog}
             />
-            {/* <Button
+            <Button
               style={styles.button}
               color="#ccc"
               title="Edit"
               onPress={() => editHabit(habit.id)}
-            /> */}
+            />
           </View>
         </View>
         <WeeklyLogs

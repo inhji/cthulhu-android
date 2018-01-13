@@ -9,17 +9,17 @@ import EditHabit from './screens/EditHabit'
 import client from './lib/apollo'
 import { Constants } from 'expo'
 
-// const HabitNav = StackNavigator(
-//   {
-//     ListHabits: { screen: HabitScreen },
-//     EditHabit: { screen: EditHabit }
-//   },
-//   { headerMode: 'none' }
-// )
+const HabitNav = StackNavigator(
+  {
+    ListHabits: { screen: HabitScreen },
+    EditHabit: { screen: EditHabit }
+  },
+  { headerMode: 'none' }
+)
 
 const DrawerNav = DrawerNavigator({
   Home: { screen: HomeScreen },
-  Habits: { screen: HabitScreen }
+  Habits: { screen: HabitNav }
 })
 
 const Nav = StackNavigator(

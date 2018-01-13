@@ -7,7 +7,9 @@ import {
   Button,
   Alert,
   AsyncStorage,
-  Switch
+  TouchableOpacity,
+  Switch,
+  Picker
 } from 'react-native'
 import { graphql, compose } from 'react-apollo'
 import { habitQuery, deleteHabitMutation, updateHabitMutation } from '../lib/queries'
@@ -48,12 +50,13 @@ class EditHabit extends React.Component {
 
   componentWillReceiveProps = props => {
     const { habit } = props.habitQuery
-    const { name, description, isGood } = habit
+    const { name, description, isGood, threshold } = habit
 
     this.setState({
       name,
       description,
-      isGood
+      isGood,
+      threshold
     })
   }
 
@@ -81,30 +84,73 @@ class EditHabit extends React.Component {
           style={styles.input}
           placeholder="Description"
         />
-        <View
-          style={{
-            flex: 1,
-            flexDirection: 'row',
-            justifyContent: 'space-between'
+        <TextInput
+          keyboardType="numeric"
+          defaultValue={habit.threshold.toString()}
+          onChangeText={threshold => {
+            threshold = parseInt(threshold.replace(/[^0-9]/g, ''))
+            this.setState({ threshold })
           }}
+          style={styles.input}
+          placeholder="Threshold"
+        />
+        <Picker
+          selectedValue={this.state.isGood}
+          onValueChange={(itemValue, itemIndex) => this.setState({ isGood: itemValue })}
         >
-          <Text style={{ height: 50 }}>LOL</Text>
-          <Switch
-            style={{ height: 50 }}
-            value={this.state.isGood}
-            onValueChange={isGood => this.setState({ isGood })}
-          />
-        </View>
+          <Picker.Item label="Good Habit" value={true} />
+          <Picker.Item label="Bad Habit" value={false} />
+        </Picker>
         <View style={styles.buttons}>
-          <Button title="Save" onPress={this.handleSave} style={styles.button} />
-          <Button title="Delete" onPress={this.handleDelete} style={styles.button} />
+          <MyButton onPress={this.handleSave} title="Save" />
+          <View style={{ flex: 1 }} />
+          <MyButton onPress={this.handleSave} title="Delete" />
         </View>
       </View>
     )
   }
 }
 
+class MyButton extends React.Component {
+  getStyles = () =>
+    StyleSheet.create({
+      button: {
+        borderRadius: 2,
+        backgroundColor: '#7E57C2',
+        height: 40,
+        padding: 10,
+        paddingRight: 20,
+        paddingLeft: 20,
+        elevation: 5
+      },
+      text: {
+        color: '#fff',
+        fontWeight: 'bold'
+      }
+    })
+
+  render() {
+    const s = this.getStyles()
+    const title = this.props.title || 'Unnamed'
+
+    return (
+      <TouchableOpacity style={s.button} onPress={this.props.onPress}>
+        <Text style={s.text}>{title.toUpperCase()}</Text>
+      </TouchableOpacity>
+    )
+  }
+}
+
 const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    padding: 10
+  },
+  buttonContainer: {
+    flex: 1,
+    height: 50,
+    flexDirection: 'row'
+  },
   form: {
     padding: 10,
     flex: 1
@@ -115,13 +161,8 @@ const styles = StyleSheet.create({
   },
   buttons: {
     flex: 1,
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'flex-start'
-  },
-  button: {
-    // flex: 1
-    // flexGrow: 2
+    height: 50,
+    flexDirection: 'row'
   }
 })
 
