@@ -3,7 +3,7 @@
   "private": true,
   "dependencies": {
     "@expo/vector-icons": "^6.2.2",
-    "apollo-client-preset": "^1.0.6",
+    "apollo-client-preset": "^1.0.8",
     "apollo-link-context": "^1.0.3",
     "expo": "^24.0.0",
     "graphql": "^0.12.3",
