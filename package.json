@@ -6,7 +6,7 @@
     "apollo-client-preset": "^1.0.6",
     "apollo-link-context": "^1.0.3",
     "expo": "^24.0.0",
-    "graphql": "^0.12.3",
+    "graphql": "^0.13.2",
     "graphql-tag": "^2.6.1",
     "lodash.countby": "^4.6.0",
     "moment": "^2.20.1",
