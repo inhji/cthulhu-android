@@ -1,8 +1,6 @@
 import React from 'react'
 import { View, Text, TextInput, StyleSheet, Button, Alert, AsyncStorage } from 'react-native'
 import { NavigationActions } from 'react-navigation'
-import { graphql } from 'react-apollo'
-import { signinUserMutation } from '../lib/queries'
 
 class Login extends React.Component {
   static navigationOptions = {
@@ -14,24 +12,31 @@ class Login extends React.Component {
   handleLogin = async e => {
     try {
       const { email, password } = this.state
-      const result = await this.props.signinUserMutation({
-        variables: {
-          email,
-          password
-        }
+
+      const response = await fetch('https://inhji.de/api/login', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+          email, password
+        })
       })
-      const id = result.data.authenticateUser.id
-      const token = result.data.authenticateUser.token
 
-      await AsyncStorage.setItem('API_USER_ID', id)
-      await AsyncStorage.setItem('API_AUTH_TOKEN', token)
+      if (response.ok) {
+        const body = await response.json()
+        console.log(body)
 
-      console.log(this.props.navigation, NavigationActions)
+        await AsyncStorage.setItem('API_USER_ID', body.id)
+        await AsyncStorage.setItem('API_AUTH_TOKEN', body.token)
 
-      const action = NavigationActions.back()
-      this.props.navigation.dispatch(action)
+        const action = NavigationActions.back()
+        this.props.navigation.dispatch(action)
+      } else {
+        Alert.alert('Server said no', response.statusCode)
+      }
     } catch (e) {
-      Alert.alert('Fehler: ' + e.message)
+      Alert.alert('Exception while login', e.message)
     }
   }
 
@@ -68,4 +73,4 @@ const styles = StyleSheet.create({
   }
 })
 
-export default graphql(signinUserMutation, { name: 'signinUserMutation' })(Login)
+export default Login

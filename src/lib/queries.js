@@ -83,12 +83,3 @@ export const createHabitLogMutation = gql`
     }
   }
 `
-
-export const signinUserMutation = gql`
-  mutation SigninUserMutation($email: String!, $password: String!) {
-    authenticateUser(email: $email, password: $password) {
-      token
-      id
-    }
-  }
-`
