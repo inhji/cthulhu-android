@@ -19,8 +19,7 @@ class Habit extends React.Component {
         }
       })
     } catch (e) {
-      console.log(JSON.stringify(e))
-      Alert.alert('Error while talking to api', 'Error: ')
+      Alert.alert('Error while talking to api')
     } finally {
       this.setState({ addDisabled: false })
     }
