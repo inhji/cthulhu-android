@@ -19,7 +19,8 @@ class Habit extends React.Component {
         }
       })
     } catch (e) {
-      Alert.alert(e.message)
+      console.log(JSON.stringify(e))
+      Alert.alert('Error while talking to api', 'Error: ')
     } finally {
       this.setState({ addDisabled: false })
     }
@@ -31,12 +32,13 @@ class Habit extends React.Component {
     return (
       <View>
         <View style={styles.container}>
-          <View style={{ flexGrow: 1 }}>
+          <View style={{ flex: 3 }}>
             <Text style={{ fontSize: 18 }}>{habit.name}</Text>
             <Text style={{ color: '#aaa' }}>{habit.description || 'A fine habit'}</Text>
           </View>
-          <View style={{ width: 50 }}>
+          <View style={styles.buttonContainer}>
             <Button
+              style={styles.button}
               color="#673AB7"
               disabled={this.state.addDisabled}
               title="+1"
@@ -66,6 +68,15 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     backgroundColor: '#fff',
     padding: 20
+  },
+  button: {
+    flex: 1
+  },
+  buttonContainer: {
+    flex: 1,
+    flexDirection: 'row',
+    alignItems: 'flex-start',
+    justifyContent: 'space-between'
   }
 })
 
