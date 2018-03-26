@@ -4,7 +4,7 @@
     "description": "This project is really great.",
     "slug": "cthulhu-android",
     "privacy": "public",
-    "sdkVersion": "24.0.0",
+    "sdkVersion": "25.0.0",
     "platforms": ["android"],
     "version": "0.1.1",
     "orientation": "portrait",

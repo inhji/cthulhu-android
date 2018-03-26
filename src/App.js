@@ -61,8 +61,7 @@ const Nav = StackNavigator(
 
 const styles = StyleSheet.create({
   root: {
-    flex: 1,
-    paddingTop: Constants.statusBarHeight
+    flex: 1
   }
 })
 
@@ -74,7 +73,7 @@ export default class App extends React.Component {
           <Nav
             onNavigationStateChange={(prevState, currentState) => {
               console.log('onNavigationStateChange')
-              console.log(currentState)
+              // console.log(currentState)
             }}
           />
         </View>
