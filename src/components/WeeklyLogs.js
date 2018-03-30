@@ -49,8 +49,8 @@ class WeeklyLogs extends React.Component {
     )
   }
 
-  render() {
-    const { logMap, threshold } = this.props
+  render () {
+    const { logMap } = this.props
     return <View style={styles.root}>{logMap.map(this.renderDay)}</View>
   }
 }

@@ -1,5 +1,7 @@
+/* global fetch */
+
 import React from 'react'
-import { View, Text, TextInput, StyleSheet, Button, Alert, AsyncStorage } from 'react-native'
+import { View, TextInput, StyleSheet, Button, Alert, AsyncStorage } from 'react-native'
 import { NavigationActions } from 'react-navigation'
 
 class Login extends React.Component {
@@ -19,7 +21,8 @@ class Login extends React.Component {
           'Content-Type': 'application/json'
         },
         body: JSON.stringify({
-          email, password
+          email,
+          password
         })
       })
 
@@ -40,7 +43,7 @@ class Login extends React.Component {
     }
   }
 
-  render() {
+  render () {
     return (
       <View>
         <View style={styles.form}>

@@ -25,8 +25,8 @@ class Habit extends React.Component {
     }
   }
 
-  render() {
-    const {habit} = this.props
+  render () {
+    const { habit } = this.props
     const logsThisWeek = weeklyLogs(habit.logs).reduce((count, log) => {
       return count + (log.value === -1 ? 0 : log.value)
     }, 0)
@@ -47,7 +47,9 @@ class Habit extends React.Component {
   }
 }
 
-const HabitWithMutation = graphql(createHabitLogMutation, { name: 'createHabitLogMutation' })(Habit)
+const HabitWithMutation = graphql(createHabitLogMutation, {
+  name: 'createHabitLogMutation'
+})(Habit)
 
 const styles = StyleSheet.create({
   conainer: {
@@ -85,8 +87,8 @@ class Home extends React.Component {
     })
   }
 
-  render() {
-    const { allHabitsQuery, navigation } = this.props
+  render () {
+    const { allHabitsQuery } = this.props
 
     if (allHabitsQuery && allHabitsQuery.loading) {
       return <Text>loading..</Text>
@@ -94,16 +96,18 @@ class Home extends React.Component {
 
     const habits = allHabitsQuery.habits
 
-    return <View>
-      <FlatList
-        data={habits}
-        keyExtractor={(item, index) => item.id}
-        renderItem={({ item }) => <HabitWithMutation habit={item} />}
-        refreshControl={
-          <RefreshControl refreshing={this.state.refreshing} onRefresh={this.refetch} />
-        }
-      />
-    </View>
+    return (
+      <View>
+        <FlatList
+          data={habits}
+          keyExtractor={(item, index) => item.id}
+          renderItem={({ item }) => <HabitWithMutation habit={item} />}
+          refreshControl={
+            <RefreshControl refreshing={this.state.refreshing} onRefresh={this.refetch} />
+          }
+        />
+      </View>
+    )
   }
 }
 

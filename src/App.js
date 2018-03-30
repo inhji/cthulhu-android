@@ -1,13 +1,12 @@
 import React from 'react'
-import { Text, View, StyleSheet, StatusBar, Button } from 'react-native'
-import { StackNavigator, DrawerNavigator, NavigationActions } from 'react-navigation'
+import { View, StyleSheet } from 'react-native'
+import { StackNavigator, DrawerNavigator } from 'react-navigation'
 import { ApolloProvider } from 'react-apollo'
 import LoginScreen from './screens/Login'
 import HomeScreen from './screens/Home'
 import HabitScreen from './screens/Habits'
 import EditHabit from './screens/EditHabit'
 import client from './lib/apollo'
-import { Constants } from 'expo'
 
 const HabitNav = StackNavigator(
   {
@@ -19,32 +18,14 @@ const HabitNav = StackNavigator(
 
 const DrawerNav = DrawerNavigator({
   Home: { screen: HomeScreen },
-  Habits: { screen: HabitNav }
+  Habits: { screen: HabitNav },
+  Login: { screen: LoginScreen }
 })
 
 const Nav = StackNavigator(
   {
     Main: {
-      screen: DrawerNav,
-      navigationOptions: ({ navigation }) => {
-        return {
-          headerRight: (
-            <Button
-              title="Login"
-              onPress={props => {
-                const action = NavigationActions.navigate({ routeName: 'Login' })
-                navigation.dispatch(action)
-              }}
-            />
-          )
-        }
-      }
-    },
-    Login: {
-      screen: LoginScreen,
-      navigationOptions: {
-        title: 'Login'
-      }
+      screen: DrawerNav
     }
   },
   {
@@ -66,16 +47,11 @@ const styles = StyleSheet.create({
 })
 
 export default class App extends React.Component {
-  render() {
+  render () {
     return (
       <ApolloProvider client={client}>
         <View style={styles.root}>
-          <Nav
-            onNavigationStateChange={(prevState, currentState) => {
-              console.log('onNavigationStateChange')
-              // console.log(currentState)
-            }}
-          />
+          <Nav />
         </View>
       </ApolloProvider>
     )

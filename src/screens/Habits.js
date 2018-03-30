@@ -1,6 +1,6 @@
 import React from 'react'
 import { graphql } from 'react-apollo'
-import { View, Text, FlatList, RefreshControl, StyleSheet } from 'react-native'
+import { View, Text, FlatList, RefreshControl } from 'react-native'
 import { NavigationActions } from 'react-navigation'
 import { allHabitsQuery } from '../lib/queries'
 import Habit from '../components/Habit'
@@ -22,12 +22,15 @@ class Habits extends React.Component {
   }
 
   editHabit = id => {
-    const action = NavigationActions.navigate({ routeName: 'EditHabit', params: { id } })
+    const action = NavigationActions.navigate({
+      routeName: 'EditHabit',
+      params: { id }
+    })
     this.props.navigation.dispatch(action)
   }
 
-  render() {
-    const { allHabitsQuery, navigation } = this.props
+  render () {
+    const { allHabitsQuery } = this.props
 
     if (allHabitsQuery && allHabitsQuery.loading) {
       return <Text>loading..</Text>

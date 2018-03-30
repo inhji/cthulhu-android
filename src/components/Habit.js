@@ -25,7 +25,7 @@ class Habit extends React.Component {
     }
   }
 
-  render() {
+  render () {
     const { habit, editHabit } = this.props
 
     return (

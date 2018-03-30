@@ -4,11 +4,9 @@ import {
   Text,
   TextInput,
   StyleSheet,
-  Button,
   Alert,
   AsyncStorage,
   TouchableOpacity,
-  Switch,
   Picker
 } from 'react-native'
 import { graphql, compose } from 'react-apollo'
@@ -60,7 +58,7 @@ class EditHabit extends React.Component {
     })
   }
 
-  render() {
+  render () {
     const { habitQuery } = this.props
 
     if (habitQuery && habitQuery.loading) {
@@ -129,7 +127,7 @@ class MyButton extends React.Component {
       }
     })
 
-  render() {
+  render () {
     const s = this.getStyles()
     const title = this.props.title || 'Unnamed'
 
