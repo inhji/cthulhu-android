@@ -1,14 +1,16 @@
 import React from 'react'
 import { View, StyleSheet } from 'react-native'
-import { StackNavigator, DrawerNavigator } from 'react-navigation'
+import { createStackNavigator, createDrawerNavigator } from 'react-navigation'
 import { ApolloProvider } from 'react-apollo'
 import LoginScreen from './screens/Login'
 import HomeScreen from './screens/Home'
 import HabitScreen from './screens/Habits'
 import EditHabit from './screens/EditHabit'
+import AddHabit from './screens/AddHabit'
+import Settings from './screens/Settings'
 import client from './lib/apollo'
 
-const HabitNav = StackNavigator(
+const HabitNav = createStackNavigator(
   {
     ListHabits: { screen: HabitScreen },
     EditHabit: { screen: EditHabit }
@@ -16,13 +18,14 @@ const HabitNav = StackNavigator(
   { headerMode: 'none' }
 )
 
-const DrawerNav = DrawerNavigator({
+const DrawerNav = createDrawerNavigator({
   Home: { screen: HomeScreen },
   Habits: { screen: HabitNav },
-  Login: { screen: LoginScreen }
+  Add: { screen: AddHabit },
+  Settings: { screen: Settings }
 })
 
-const Nav = StackNavigator(
+const Nav = createStackNavigator(
   {
     Main: {
       screen: DrawerNav

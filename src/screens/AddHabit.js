@@ -9,27 +9,23 @@ import {
   TouchableOpacity,
   Picker
 } from 'react-native'
-import { getHabit, updateHabit } from '../lib/storage'
+import { addHabit } from '../lib/storage'
 
-class EditHabit extends React.Component {
+class AddHabit extends React.Component {
   state = {
     name: '',
     description: '',
     threshold: 0,
-    isGood: false
-  }
-
-  async componentDidMount() {
-    const habit = await getHabit(this.props.navigation.state.params.id)
-    const { name, description, threshold, isGood, id, logs } = habit
-
-    this.setState({ name, description, threshold, isGood })
+    isGood: true
   }
 
   handleSave = async () => {
     const { name, description, threshold, isGood } = this.state
 
-    await updateHabit(this.props.navigation.state.params.id, name, description, threshold, isGood)
+    console.log('Adding Habit!')
+
+    const result = await addHabit(name, description, threshold, isGood)
+    console.log("Adding Habit: " + result)
   }
 
   handleDelete = async () => {
@@ -40,21 +36,18 @@ class EditHabit extends React.Component {
     return (
       <View style={styles.form}>
         <TextInput
-          defaultValue={this.state.name}
           onChangeText={name => this.setState({ name })}
           style={styles.input}
           keyboardType="email-address"
           placeholder="Name"
         />
         <TextInput
-          defaultValue={this.state.description}
           onChangeText={description => this.setState({ description })}
           style={styles.input}
           placeholder="Description"
         />
         <TextInput
           keyboardType="numeric"
-          defaultValue={this.state.threshold.toString()}
           onChangeText={threshold => {
             threshold = parseInt(threshold.replace(/[^0-9]/g, ''))
             this.setState({ threshold })
@@ -71,8 +64,6 @@ class EditHabit extends React.Component {
         </Picker>
         <View style={styles.buttons}>
           <MyButton onPress={this.handleSave} title="Save" />
-          <View style={{ flex: 1 }} />
-          <MyButton onPress={this.handleSave} title="Delete" />
         </View>
       </View>
     )
@@ -134,4 +125,4 @@ const styles = StyleSheet.create({
   }
 })
 
-export default EditHabit
+export default AddHabit

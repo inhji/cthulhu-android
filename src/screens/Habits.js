@@ -3,22 +3,17 @@ import { graphql } from 'react-apollo'
 import { View, Text, FlatList, RefreshControl } from 'react-native'
 import { NavigationActions } from 'react-navigation'
 import { allHabitsQuery } from '../lib/queries'
+import { getHabits } from '../lib/storage'
 import Habit from '../components/Habit'
 
 class Habits extends React.Component {
-  state = { refreshing: false }
+  state = { refreshing: false, habits: [] }
 
-  refetch = () => {
-    const { refetch } = this.props.allHabitsQuery
+  async componentDidMount() {
+    const habits = await getHabits()
+    console.log(habits)
 
-    if (this.state.refreshing) {
-      return
-    }
-
-    this.setState({ refreshing: true })
-    refetch().then(() => {
-      this.setState({ refreshing: false })
-    })
+    this.setState({ habits })
   }
 
   editHabit = id => {
@@ -30,23 +25,12 @@ class Habits extends React.Component {
   }
 
   render () {
-    const { allHabitsQuery } = this.props
-
-    if (allHabitsQuery && allHabitsQuery.loading) {
-      return <Text>loading..</Text>
-    }
-
-    const habits = allHabitsQuery.habits
-
     return (
       <View>
         <FlatList
-          data={habits}
+          data={this.state.habits}
           keyExtractor={(item, index) => item.id}
           renderItem={({ item }) => <Habit habit={item} editHabit={this.editHabit} />}
-          refreshControl={
-            <RefreshControl refreshing={this.state.refreshing} onRefresh={this.refetch} />
-          }
         />
       </View>
     )

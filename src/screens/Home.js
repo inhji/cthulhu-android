@@ -1,8 +1,8 @@
 import React from 'react'
 import { Text, View, Button, FlatList, StyleSheet, RefreshControl, Alert } from 'react-native'
-import { graphql } from 'react-apollo'
-import { allHabitsQuery, createHabitLogMutation } from '../lib/queries'
+import { getHabits, addHabitLog } from '../lib/storage'
 import weeklyLogs from '../lib/weekly_logs'
+import WeeklyLogs from '../components/WeeklyLogs'
 
 class Habit extends React.Component {
   state = {
@@ -12,14 +12,13 @@ class Habit extends React.Component {
   addHabitLog = async () => {
     try {
       this.setState({ addDisabled: true })
-      await this.props.createHabitLogMutation({
-        variables: {
-          id: this.props.habit.id
-        }
-      })
+
+      await addHabitLog(this.props.habit.id)
+
+      this.props.onUpdated()
+
     } catch (e) {
       console.log(JSON.stringify(e))
-      Alert.alert('Error while talking to api')
     } finally {
       this.setState({ addDisabled: false })
     }
@@ -41,15 +40,17 @@ class Habit extends React.Component {
           <View style={styles.buttonContainer}>
             <Button style={styles.button} title="1 UP" onPress={this.addHabitLog} />
           </View>
+
         </View>
+        <WeeklyLogs
+          logMap={weeklyLogs(habit.logs)}
+          threshold={habit.threshold}
+          isGood={habit.isGood}
+        />
       </View>
     )
   }
 }
-
-const HabitWithMutation = graphql(createHabitLogMutation, {
-  name: 'createHabitLogMutation'
-})(Habit)
 
 const styles = StyleSheet.create({
   conainer: {
@@ -72,36 +73,34 @@ const styles = StyleSheet.create({
 })
 
 class Home extends React.Component {
-  state = { refreshing: false }
+  state = { habits: [], refreshing: false }
 
-  refetch = () => {
-    const { refetch } = this.props.allHabitsQuery
+  async componentDidMount() {
+    await this.loadHabits()
+  }
 
+  loadHabits = async () => {
+    const habits = await getHabits()
+    this.setState({ habits })
+  }
+
+  refetch = async () => {
     if (this.state.refreshing) {
       return
     }
 
     this.setState({ refreshing: true })
-    refetch().then(() => {
-      this.setState({ refreshing: false })
-    })
+    await this.loadHabits()
+    this.setState({ refreshing: false })
   }
 
   render () {
-    const { allHabitsQuery } = this.props
-
-    if (allHabitsQuery && allHabitsQuery.loading) {
-      return <Text>loading..</Text>
-    }
-
-    const habits = allHabitsQuery.habits
-
     return (
       <View>
         <FlatList
-          data={habits}
+          data={this.state.habits}
           keyExtractor={(item, index) => item.id}
-          renderItem={({ item }) => <HabitWithMutation habit={item} />}
+          renderItem={({ item }) => <Habit habit={item} onUpdated={this.refetch} />}
           refreshControl={
             <RefreshControl refreshing={this.state.refreshing} onRefresh={this.refetch} />
           }
@@ -111,4 +110,4 @@ class Home extends React.Component {
   }
 }
 
-export default graphql(allHabitsQuery, { name: 'allHabitsQuery' })(Home)
+export default Home
