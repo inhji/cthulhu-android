@@ -9,9 +9,14 @@ import {
   TouchableOpacity,
   Picker
 } from 'react-native'
+import { TextField } from 'react-native-material-textfield'
 import { getHabit, updateHabit } from '../lib/storage'
 
 class EditHabit extends React.Component {
+  static navigationOptions = {
+    title: 'Edit Habit'
+  }
+
   state = {
     name: '',
     description: '',
@@ -19,7 +24,7 @@ class EditHabit extends React.Component {
     isGood: false
   }
 
-  async componentDidMount() {
+  async componentDidMount () {
     const habit = await getHabit(this.props.navigation.state.params.id)
     const { name, description, threshold, isGood, id, logs } = habit
 
@@ -30,6 +35,7 @@ class EditHabit extends React.Component {
     const { name, description, threshold, isGood } = this.state
 
     await updateHabit(this.props.navigation.state.params.id, name, description, threshold, isGood)
+    this.props.navigation.goBack()
   }
 
   handleDelete = async () => {
@@ -39,28 +45,24 @@ class EditHabit extends React.Component {
   render () {
     return (
       <View style={styles.form}>
-        <TextInput
-          defaultValue={this.state.name}
+        <TextField
+          value={this.state.name}
+          label="Habit Name"
           onChangeText={name => this.setState({ name })}
-          style={styles.input}
-          keyboardType="email-address"
-          placeholder="Name"
         />
-        <TextInput
-          defaultValue={this.state.description}
+        <TextField
+          value={this.state.description}
+          label="Habit Description"
           onChangeText={description => this.setState({ description })}
-          style={styles.input}
-          placeholder="Description"
         />
-        <TextInput
+        <TextField
+          value={this.state.threshold.toString()}
+          label="Threshold"
           keyboardType="numeric"
-          defaultValue={this.state.threshold.toString()}
           onChangeText={threshold => {
             threshold = parseInt(threshold.replace(/[^0-9]/g, ''))
             this.setState({ threshold })
           }}
-          style={styles.input}
-          placeholder="Threshold"
         />
         <Picker
           selectedValue={this.state.isGood}

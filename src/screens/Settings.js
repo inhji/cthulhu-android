@@ -4,14 +4,17 @@ import React from 'react'
 import { View, TextInput, StyleSheet, Button, Alert, AsyncStorage } from 'react-native'
 import { NavigationActions } from 'react-navigation'
 
-class Login extends React.Component {
+class Settings extends React.Component {
   static navigationOptions = {
-    drawerLabel: 'Settings'
+    title: 'Settings',
+    headerStyle: {
+      backgroundColor: '#263238'
+    }
   }
 
   handleDelete = async e => {
-    await AsyncStorage.removeItem("HABITS")
-    Alert.alert("All habits deleted!")
+    await AsyncStorage.removeItem('HABITS')
+    Alert.alert('All habits deleted!')
   }
 
   render () {
@@ -35,4 +38,4 @@ const styles = StyleSheet.create({
   }
 })
 
-export default Login
+export default Settings

@@ -9,9 +9,14 @@ import {
   TouchableOpacity,
   Picker
 } from 'react-native'
+import { TextField } from 'react-native-material-textfield'
 import { addHabit } from '../lib/storage'
 
 class AddHabit extends React.Component {
+  static navigationOptions = {
+    title: 'Add Habit'
+  }
+
   state = {
     name: '',
     description: '',
@@ -21,11 +26,9 @@ class AddHabit extends React.Component {
 
   handleSave = async () => {
     const { name, description, threshold, isGood } = this.state
-
-    console.log('Adding Habit!')
-
     const result = await addHabit(name, description, threshold, isGood)
-    console.log("Adding Habit: " + result)
+
+    this.props.navigation.goBack()
   }
 
   handleDelete = async () => {
@@ -35,25 +38,18 @@ class AddHabit extends React.Component {
   render () {
     return (
       <View style={styles.form}>
-        <TextInput
-          onChangeText={name => this.setState({ name })}
-          style={styles.input}
-          keyboardType="email-address"
-          placeholder="Name"
-        />
-        <TextInput
+        <TextField label="Habit Name" onChangeText={name => this.setState({ name })} />
+        <TextField
+          label="Habit Description"
           onChangeText={description => this.setState({ description })}
-          style={styles.input}
-          placeholder="Description"
         />
-        <TextInput
+        <TextField
+          label="Threshold"
           keyboardType="numeric"
           onChangeText={threshold => {
             threshold = parseInt(threshold.replace(/[^0-9]/g, ''))
             this.setState({ threshold })
           }}
-          style={styles.input}
-          placeholder="Threshold"
         />
         <Picker
           selectedValue={this.state.isGood}

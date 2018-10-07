@@ -51,7 +51,18 @@ class WeeklyLogs extends React.Component {
 
   render () {
     const { logMap } = this.props
-    return <View style={styles.root}>{logMap.map(this.renderDay)}</View>
+    const logsThisWeek = logMap.reduce((count, log) => {
+      return count + (log.value === -1 ? 0 : log.value)
+    }, 0)
+    return (
+      <View style={styles.root}>
+        {logMap.map(this.renderDay)}
+        <View key={99} style={styles.DAY_SUM}>
+          <Text style={styles.textDark}>ALL</Text>
+          <Text style={styles.textDark}>{logsThisWeek}</Text>
+        </View>
+      </View>
+    )
   }
 }
 
@@ -62,6 +73,10 @@ const styles = StyleSheet.create({
   },
   text: {
     textAlign: 'center'
+  },
+  textDark: {
+    textAlign: 'center',
+    color: '#fff'
   },
   day: {
     flex: 1
@@ -80,6 +95,11 @@ const styles = StyleSheet.create({
     flex: 1,
     padding: 3,
     backgroundColor: '#fff'
+  },
+  DAY_SUM: {
+    flex: 1,
+    padding: 3,
+    backgroundColor: '#263238'
   }
 })
 
